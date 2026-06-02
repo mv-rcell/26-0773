@@ -1,101 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Zone</title>
+    <style>
+        /* --- Reset & Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #0d0e12;
+            color: #e0e6ed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            background-color: #151821;
+            padding: 15px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #ff4655;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0 15px;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #ff4655;
+        }
+
+        /* --- Header / Hero Area --- */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(rgba(21, 24, 33, 0.85), rgba(13, 14, 18, 1)), 
+                        url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1920') no-repeat center center/cover;
+            border-bottom: 1px solid #232734;
+        }
+        header h1 {
+            font-size: 3.5rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 70, 85, 0.6);
+        }
+
+        /* --- Section Content --- */
+        section {
+            background-color: #151821;
+            padding: 40px;
+            border-radius: 8px;
+            margin: 40px 0;
+            border-left: 5px solid #ff4655;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        section p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #b9c4cf;
+        }
+        section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- Headings --- */
+        h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin: 50px 0 20px 0;
+            text-transform: uppercase;
+            border-bottom: 2px solid #232734;
+            padding-bottom: 10px;
+        }
+
+        /* --- Lists --- */
+        ul, ol {
+            background-color: #151821;
+            padding: 25px 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        li {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+        ul li { list-style-type: square; color: #ff4655; }
+        ul li span { color: #e0e6ed; }
+        ol li { color: #00e5ff; }
+        ol li span { color: #e0e6ed; }
+
+        /* --- Table --- */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #151821;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+        }
+        th {
+            background-color: #ff4655;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        tr {
+            border-bottom: 1px solid #232734;
+            transition: background-color 0.2s;
+        }
+        tr:last-child {
+            border-bottom: none;
+        }
+        tr:hover {
+            background-color: #1e2230;
+        }
+
+        /* --- Image Gallery --- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid #232734;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+            border-color: #ff4655;
+            cursor: pointer;
+        }
+
+        /* --- Video Wrapper (Responsive) --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 2px solid #232734;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
 
-<nav>
-    <a href="#home">Home</a> |
-    <a href="#games">Games</a> |
-    <a href="#gallery">Gallery</a> |
-    <a href="#contact">Contact</a>
-</nav>
-<hr>
+    <!-- Navigation -->
+    <nav id="home">
+        <a href="#home">Home</a>
+        <a href="#games">Games</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#video">Trailer</a>
+    </nav>
+
+    <!-- Header Section -->
     <header>
         <h1>Game Zone</h1>
     </header>
 
-    <section>
-        <p>
-            Game Zone is an exciting online gaming platform designed for full-time gamers who are passionate about competitive and recreational gaming. 
-            The platform provides players with access to a wide variety of games ranging from action, adventure, sports, and racing to multiplayer battle arenas. 
-            With a modern and user-friendly interface, gamers can easily connect with friends, join tournaments, and enjoy immersive gaming experiences from anywhere in the world.
-        </p>
+    <!-- Main Website Layout Container -->
+    <div class="container">
 
-        <p>
-            Our platform is built to create a strong gaming community where players can interact, share strategies, and compete with others globally. 
-            Game Zone also offers live streaming features, leaderboards, and achievement systems that motivate gamers to improve their skills and gain recognition. 
-            Whether someone is a beginner or a professional esports player, the platform provides opportunities for entertainment, learning, and competition in a secure online environment.
-        </p>
+        <!-- About Section -->
+        <section>
+            <p>
+                Game Zone is an exciting online gaming platform designed for full-time gamers who are passionate about competitive and recreational gaming. 
+                The platform provides players with access to a wide variety of games ranging from action, adventure, sports, and racing to multiplayer battle arenas. 
+                With a modern and user-friendly interface, gamers can easily connect with friends, join tournaments, and enjoy immersive gaming experiences from anywhere in the world.
+            </p>
+            <p>
+                Our platform is built to create a strong gaming community where players can interact, share strategies, and compete with others globally. 
+                Game Zone also offers live streaming features, leaderboards, and achievement systems that motivate gamers to improve their skills and gain recognition. 
+                Whether someone is a beginner or a professional esports player, the platform provides opportunities for entertainment, learning, and competition in a secure online environment.
+            </p>
+            <p>
+                In addition to gaming, Game Zone focuses on delivering high performance and reliable services to ensure smooth gameplay without interruptions. 
+                Players can customize their profiles, participate in gaming events, and access the latest gaming news and updates. 
+                The goal of Game Zone is to become a complete digital hub for gamers by combining fun, competition, and social interaction into one powerful online platform.
+            </p>
+        </section>
 
-        <p>
-            In addition to gaming, Game Zone focuses on delivering high performance and reliable services to ensure smooth gameplay without interruptions. 
-            Players can customize their profiles, participate in gaming events, and access the latest gaming news and updates. 
-            The goal of Game Zone is to become a complete digital hub for gamers by combining fun, competition, and social interaction into one powerful online platform.
-        </p>
-    </section>
+        <!-- Lists Side-by-Side Area -->
+        <h2>Game Tags & Elements</h2>
+        <ul>
+            <li><span>Football</span></li>
+            <li><span>Thriller</span></li>
+            <li><span>First-person</span></li>
+            <li><span>NBA</span></li>
+            <li><span>WRC</span></li>
+        </ul>
 
-    <h2>Unordered List</h2>
-    <ul>
-        <li>Football</li>
-        <li>Thriller</li>
-        <li>First-person</li>
-        <li>NBA</li>
-        <li>WRC</li>
-    </ul>
+        <h2>Gaming Styles</h2>
+        <ol>
+            <li><span>Online gaming</span></li>
+            <li><span>Gaming consoles</span></li>
+            <li><span>Single player</span></li>
+            <li><span>Racing games</span></li>
+            <li><span>Adventure games</span></li>
+        </ol>
 
-    <h2>Ordered List</h2>
-    <ol>
-        <li>Online gaming</li>
-        <li>gaming consoles</li>
-        <li>single player</li>
-        <li>racing games</li>
-        <li>Adventure games</li>
-    </ol>
-    <h2>Popular Games</h2>
+        <!-- Table Section -->
+        <h2 id="games">Popular Games</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Genre</th>
+                        <th>Platform</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>FIFA 25</strong></td>
+                        <td>Sports</td>
+                        <td>PC, PS5, Xbox</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Call of Duty</strong></td>
+                        <td>Action</td>
+                        <td>PC, PS5, Xbox</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Need for Speed</strong></td>
+                        <td>Racing</td>
+                        <td>PC, PS5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Minecraft</strong></td>
+                        <td>Adventure</td>
+                        <td>PC, Mobile</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Game</th>
-        <th>Genre</th>
-        <th>Platform</th>
-    </tr>
-    <tr>
-        <td>FIFA 25</td>
-        <td>Sports</td>
-        <td>PC, PS5, Xbox</td>
-    </tr>
-    <tr>
-        <td>Call of Duty</td>
-        <td>Action</td>
-        <td>PC, PS5, Xbox</td>
-    </tr>
-    <tr>
-        <td>Need for Speed</td>
-        <td>Racing</td>
-        <td>PC, PS5</td>
-    </tr>
-    <tr>
-        <td>Minecraft</td>
-        <td>Adventure</td>
-        <td>PC, Mobile</td>
-    </tr>
-</table>
+        <!-- Gallery Section -->
+        <h2 id="gallery">Images</h2>
+        <div class="gallery">
+            <!-- Replace the src values with your actual screenshot images paths -->
+            <img src="Screenshot from 2025-01-05 22-35-48.png" alt="Game Screenshot 1">
+            <img src="Screenshot from 2025-04-03 18-03-19.png" alt="Game Screenshot 2">
+            <img src="Screenshot from 2025-07-04 00-06-42.png" alt="Game Screenshot 3">
+            <img src="Screenshot_2024-09-25-21-11-12-57_0b2fce7a16bf2b728d6ffa28c8d60efb~2.jpg" alt="Game Screenshot 4">
+        </div>
 
-    <h2>Images</h2>
-    <img src="Screenshot from 2025-01-05 22-35-48.png" alt="Image 1" width="300">
-    <img src="Screenshot from 2025-04-03 18-03-19.png" alt="Image 2" width="300">
-    <img src="Screenshot from 2025-07-04 00-06-42.png" alt="Image 2" width="300">
-    <img src="Screenshot_2024-09-25-21-11-12-57_0b2fce7a16bf2b728d6ffa28c8d60efb~2.jpg" alt="Image 2" width="300">
+        <!-- Video Section -->
+        <h2 id="video">Featured Game Trailer</h2>
+        <div class="video-container">
+            <!-- Notice the URL changed from 'youtu.be/...' to 'youtube.com/embed/...' so it plays correctly inline -->
+            <iframe src="Black Myth Wukong - Pre-Order CG Trailer PS5 Games - PlayStation (1080p, h264).mp4" title="Game Trailer" allowfullscreen></iframe>
+        </div>
 
-    <h2>Featured Game Trailer</h2>
-
-    <iframe width="560" height="315"
-    src="https://youtu.be/LEurg3JaP2o?si=EY--sFw28mPmjw3B"
-    title="Game Trailer"
-    allowfullscreen>
-    </iframe>
+    </div>
 
 </body>
 </html>
