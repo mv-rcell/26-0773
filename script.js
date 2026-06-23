@@ -1,10 +1,16 @@
 // ==========================================
-// 4. AUTOMATED WELCOME POPUP MODAL
+// 1. AUTOMATED WELCOME POPUP MODAL (INSTANT)
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
     // Only launch the welcome modal if the user hasn't seen it during this active browser session
     if (!sessionStorage.getItem("gamezone_welcomed")) {
         createWelcomeModal();
+    }
+    
+    // Core event listener hook for the contact validation engine
+    const contactForm = document.getElementById("contact-form");
+    if (contactForm) {
+        contactForm.addEventListener("submit", handleContactSubmit);
     }
 });
 
@@ -43,7 +49,7 @@ function createWelcomeModal() {
         alignItems: "center",
         zIndex: "9999",
         opacity: "0",
-        transition: "opacity 0.4s ease",
+        transition: "opacity 0.3s ease",
         padding: "20px"
     });
 
@@ -60,7 +66,7 @@ function createWelcomeModal() {
         textAlign: "center",
         boxShadow: "0 20px 40px rgba(0, 0, 0, 0.6)",
         transform: "scale(0.8)",
-        transition: "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+        transition: "transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
     });
 
     // Style helper components
@@ -115,11 +121,11 @@ function createWelcomeModal() {
     closeBtn.addEventListener("mouseenter", () => { closeBtn.style.backgroundColor = "#e03b48"; });
     closeBtn.addEventListener("mouseleave", () => { closeBtn.style.backgroundColor = "#ff4655"; });
 
-    // Trigger subtle fade-and-pop intro sequence via timeouts
+    // Trigger immediate snap pop intro sequence execution loop
     setTimeout(() => {
         modalOverlay.style.opacity = "1";
         modalCard.style.transform = "scale(1)";
-    }, 50);
+    }, 1);
 
     // Click handler deployment to destroy modal window and flag completion session marker
     closeBtn.addEventListener("click", () => {
@@ -127,18 +133,14 @@ function createWelcomeModal() {
         modalCard.style.transform = "scale(0.8)";
         setTimeout(() => {
             modalOverlay.remove();
-            // Using sessionStorage means it will pop up once per visit, but won't annoy them on every click
             sessionStorage.setItem("gamezone_welcomed", "true");
-        }, 400);
+        }, 300);
     });
 }
-document.addEventListener("DOMContentLoaded", () => {
-    const contactForm = document.getElementById("contact-form");
-    if (contactForm) {
-        contactForm.addEventListener("submit", handleContactSubmit);
-    }
-});
 
+// ==========================================
+// 2. COMPREHENSIVE CONTACT FORM VALIDATION
+// ==========================================
 function handleContactSubmit(event) {
     event.preventDefault(); // Stop form submission redirection
 
@@ -156,7 +158,7 @@ function handleContactSubmit(event) {
     const errAge = document.getElementById("error-age");
     const errPhone = document.getElementById("error-phone");
     const errGender = document.getElementById("error-gender");
-    const errEmail = document.getElementById("error-email");
+    const errEmail = document.getElementById("error-hint-email") || document.getElementById("error-email");
     const errMsg = document.getElementById("error-msg");
 
     // Tracking flag
@@ -166,60 +168,60 @@ function handleContactSubmit(event) {
     const inputs = [nameInput, ageInput, phoneInput, genderSelect, emailInput, msgInput];
     const errors = [errName, errAge, errPhone, errGender, errEmail, errMsg];
     
-    errors.forEach(err => err.style.display = "none");
-    inputs.forEach(input => input.style.borderColor = "#232734");
+    errors.forEach(err => { if (err) err.style.display = "none"; });
+    inputs.forEach(input => { if (input) input.style.borderColor = "#232734"; });
     statusDisplay.textContent = "";
 
-    // 4. Run detailed conditional validation passes
+    // 4. Run detailed conditional validation passes (Blank check focus)
     
-    // Validate Name (Blank check)
-    if (nameInput.value.trim() === "") {
-        errName.style.display = "block";
+    // Validate Name
+    if (nameInput && nameInput.value.trim() === "") {
+        if (errName) errName.style.display = "block";
         nameInput.style.borderColor = "#ff4655";
         isFormValid = false;
     }
 
-    // Validate Age (Blank check + real number sanity)
-    if (ageInput.value.trim() === "" || parseInt(ageInput.value) <= 0) {
-        errAge.style.display = "block";
+    // Validate Age
+    if (ageInput && (ageInput.value.trim() === "" || parseInt(ageInput.value) <= 0)) {
+        if (errAge) errAge.style.display = "block";
         ageInput.style.borderColor = "#ff4655";
         isFormValid = false;
     }
 
-    // Validate Phone Connection (Blank check)
-    if (phoneInput.value.trim() === "") {
-        errPhone.style.display = "block";
+    // Validate Phone Connection
+    if (phoneInput && phoneInput.value.trim() === "") {
+        if (errPhone) errPhone.style.display = "block";
         phoneInput.style.borderColor = "#ff4655";
         isFormValid = false;
     }
 
-    // Validate Dropdown Selection (Checks for blank string default placeholder value)
-    if (genderSelect.value === "") {
-        errGender.style.display = "block";
+    // Validate Dropdown Selection
+    if (genderSelect && genderSelect.value === "") {
+        if (errGender) errGender.style.display = "block";
         genderSelect.style.borderColor = "#ff4655";
         isFormValid = false;
     }
 
     // Validate Email Address Structure
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailInput.value.trim() === "" || !emailPattern.test(emailInput.value.trim())) {
-        errEmail.style.display = "block";
+    if (emailInput && (emailInput.value.trim() === "" || !emailPattern.test(emailInput.value.trim()))) {
+        if (errEmail) errEmail.style.display = "block";
         emailInput.style.borderColor = "#ff4655";
         isFormValid = false;
     }
 
     // Validate Text Message Body Area
-    if (msgInput.value.trim() === "") {
-        errMsg.style.display = "block";
+    if (msgInput && msgInput.value.trim() === "") {
+        if (errMsg) errMsg.style.display = "block";
         msgInput.style.borderColor = "#ff4655";
         isFormValid = false;
     }
 
-    // 5. final decision matrix
+    // 5. Final decision matrix
     if (isFormValid) {
         statusDisplay.style.color = "#00e5ff";
         statusDisplay.textContent = "⚡ Transmission secure. Your data has safely bypassed our grid firewall!";
-        contactForm.reset(); // Safely flushes input fields
+        document.getElementById("contact-form").reset(); // Safely flushes input fields
     } else {
         statusDisplay.style.color = "#ff4655";
         statusDisplay.textContent = "❌ Submission rejected. Fill in all missing terminal inputs.";
