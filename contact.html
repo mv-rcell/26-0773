@@ -2,33 +2,212 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us | Game Zone</title>
-  
-
+    <link rel="stylesheet" href="style.css">
     <style>
-        body { background-color: #0d0e12; color: #fff; font-family: 'Segoe UI', sans-serif; }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+/* (Same CSS as index.html for consistency) */
+        body { background-color: #0d0e12; color: #e0e6ed; font-family: 'Segoe UI', sans-serif; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         nav { background-color: #151821; padding: 15px 0; text-align: center; border-bottom: 2px solid #ff4655; }
         nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
-        iframe { width: 100%; height: 400px; border: 0; margin-top: 20px; border-radius: 10px; }
+          .contact-box {
+            background: #151821;
+            border: 1px solid #232734;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 25px 0;
+            border-left: 5px solid #ff4655;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-row {
+            margin-bottom: 20px;
+        }
+        
+        .form-row.full-width {
+            grid-column: span 2;
+        }
+        
+        .form-row label {
+            display: block;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+        
+        .form-row input, .form-row select, .form-row textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0d0e12;
+            border: 1px solid #232734;
+            border-radius: 4px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-row select option {
+            background: #151821;
+            color: #fff;
+        }
+        
+        .form-row textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+            outline: none;
+            border-color: #ff4655;
+            box-shadow: 0 0 8px rgba(255, 70, 85, 0.2);
+        }
+        
+        .error-hint {
+            color: #ff4655;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .contact-submit-btn {
+            background: #ff4655;
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 70, 85, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .contact-submit-btn:hover {
+            background: #e03b48;
+            transform: translateY(-2px);
+        }
+        
+        .form-status-msg {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .map-responsive { 
+            position: relative; 
+            padding-bottom: 45%; 
+            height: 0; 
+            overflow: hidden; 
+            border-radius: 8px; 
+            border: 1px solid #232734; 
+            margin-top: 30px; 
+        }
+        
+        .map-responsive iframe { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+        }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-row.full-width { grid-column: span 1; }
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="auth.html" id="nav-auth">Sign In</a>
-    </nav>
-    <div class="container">
-        <h1>Contact HQ</h1>
-        <p>Find us at our main gaming hub:</p>
-        <p>Telephone: +254792297731</p>
-        <p>Instagram: @Gamezone</p>
 
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.83543450937!2d144.9537353153166!3d-37.816279742021234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sus!4v1611554553313!5m2!1sen!2sus">
-        </iframe>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="auth.html" id="nav-auth">Sign In</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Contact HQ</h1>
+    </header>
+
+    <div class="container">
+        <div class="contact-box">
+            <h2>Transmit Message</h2>
+            <p style="margin-bottom: 20px; color: #b9c4cf;">All grid coordinates must be completely filled to pass regional server parameters.</p>
+            
+            <form id="contact-form" novalidate>
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="contact-name">Full Name</label>
+                        <input type="text" id="contact-name" placeholder="Your Name">
+                        <div id="error-name" class="error-hint">This field cannot be left blank.</div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label for="contact-age">Age</label>
+                        <input type="number" id="contact-age" placeholder="e.g., 21" min="1">
+                        <div id="error-age" class="error-hint">This field cannot be left blank.</div>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="contact-phone">Contact Number</label>
+                        <input type="tel" id="contact-phone" placeholder="e.g., +1234567890">
+                        <div id="error-phone" class="error-hint">This field cannot be left blank.</div>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="contact-gender">Gender Identity</label>
+                        <select id="contact-gender">
+                            <option value="">-- Select Gender --</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="non-binary">Non-Binary</option>
+                            <option value="prefer-not-to-say">Prefer Not to Say</option>
+                        </select>
+                        <div id="error-gender" class="error-hint">Please select an option.</div>
+                    </div>
+                    
+                    <div class="form-row full-width">
+                        <label for="contact-email">Email Address</label>
+                        <input type="email" id="contact-email" placeholder="comms@domain.com">
+                        <div id="error-hint-email" class="error-hint">This field cannot be left blank (Must match email format).</div>
+                    </div>
+                    
+                    <div class="form-row full-width">
+                        <label for="contact-msg">Message Transmission</label>
+                        <textarea id="contact-msg" placeholder="Write your submission details here..."></textarea>
+                        <div id="error-msg" class="error-hint">This field cannot be left blank.</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="contact-submit-btn">Send Ping</button>
+                <div id="contact-status" class="form-status-msg"></div>
+            </form>
+        </div>
+
+        <p>Find our physical deployment coordinates stationed on the grid below:</p>
+        <div class="map-responsive">
+            <iframe src="https://maps.google.com/maps?q=Nairobi&t=&z=13&ie=UTF-8&iwloc=&output=embed"></iframe>
+        </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
