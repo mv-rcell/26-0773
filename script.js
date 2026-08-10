@@ -1,9 +1,8 @@
 // ==========================================
 // 0. SUPABASE CLIENT INITIALIZATION
 // ==========================================
-// Replace with your actual credentials from Supabase Dashboard -> Project Settings -> API
-const SUPABASE_URL = 'YOUR_SUPABASE_PROJECT_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://gijwvocyiinrcoxfhuvt.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdpand2b2N5aWlucmNveGZodXZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3NzAwMzUsImV4cCI6MjA5ODM0NjAzNX0.6PWcdW7vP6OsVuLQ7sYiWZrWe6PCIk2zW0M-bHuydhI';
 
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -11,7 +10,7 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // 1. DOM INITIALIZATION & EVENT HOOKS
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    // Sync session state to check if user is already logged in
+    // Sync active session on load
     checkAuthState();
 
     // Welcome popup launch trigger
@@ -66,15 +65,15 @@ function switchTab(tab) {
     if (feedback) feedback.textContent = "";
 
     if (tab === 'login') {
-        loginBox.classList.add("active");
-        signupBox.classList.remove("active");
-        tabLogin.classList.add("active");
-        tabSignup.classList.remove("active");
+        if (loginBox) loginBox.classList.add("active");
+        if (signupBox) signupBox.classList.remove("active");
+        if (tabLogin) tabLogin.classList.add("active");
+        if (tabSignup) tabSignup.classList.remove("active");
     } else {
-        signupBox.classList.add("active");
-        loginBox.classList.remove("active");
-        tabSignup.classList.add("active");
-        tabLogin.classList.remove("active");
+        if (signupBox) signupBox.classList.add("active");
+        if (loginBox) loginBox.classList.remove("active");
+        if (tabSignup) tabSignup.classList.add("active");
+        if (tabLogin) tabLogin.classList.remove("active");
     }
 }
 
@@ -131,7 +130,7 @@ async function handleLoginSubmit(event) {
         await checkAuthState();
         setTimeout(() => {
             window.location.href = "index.html";
-        }, 1200);
+        }, 1000);
     }
 }
 

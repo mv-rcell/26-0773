@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Zone | Leaderboard</title>
+    <style>
+        body { background-color: #0d0e12; color: #e0e6ed; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        nav { background-color: #151821; padding: 15px 0; text-align: center; border-bottom: 2px solid #ff4655; }
+        nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; }
+        nav a:hover { color: #ff4655; }
+        
+        header { text-align: center; padding: 50px 20px; background: #151821; border-bottom: 1px solid #232734; }
+        h1 { font-size: 2.5rem; color: #fff; text-transform: uppercase; margin: 0; }
+
+        .leaderboard-section { background: #151821; border-radius: 8px; padding: 30px; margin-top: 30px; border-left: 5px solid #ff4655; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .table-responsive { width: 100%; overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 14px 18px; border-bottom: 1px solid #232734; }
+        th { background: #ff4655; color: #fff; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px; }
+        tbody tr:hover { background-color: #1e2230; }
+        
+        .rank-badge { font-weight: bold; color: #00e5ff; }
+        .rank-top1 { color: #ffd700; font-size: 1.1rem; }
+        .rank-top2 { color: #c0c0c0; font-size: 1.05rem; }
+        .rank-top3 { color: #cd7f32; font-size: 1.05rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="profile.html">Profile</a>
+            <a href="auth.html" id="nav-auth">Sign In</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Global Rankings</h1>
+    </header>
+
+    <div class="container">
+        <section class="leaderboard-section">
+            <h2>Top Competitors</h2>
+            <p>Live rankings pulled directly from our database servers.</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Gamer Tag</th>
+                            <th>Main Title</th>
+                            <th>Total Wins</th>
+                            <th>Arena Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-data">
+                        <tr><td colspan="5" style="text-align:center;">Fetching player rankings...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", loadLeaderboard);
+
+        async function loadLeaderboard() {
+            const tbody = document.getElementById("leaderboard-data");
+            
+            // Fetch profiles ordered by points
+            const { data, error } = await _supabase
+                .from('profiles')
+                .select('gamer_tag, favorite_game, wins, points')
+                .order('points', { ascending: false });
+
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:#ff4655;">Error loading leaderboard: ${error.message}</td></tr>`;
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5">No competitors registered yet.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = "";
+            data.forEach((player, index) => {
+                const rank = index + 1;
+                let rankClass = "rank-badge";
+                if (rank === 1) rankClass = "rank-top1";
+                if (rank === 2) rankClass = "rank-top2";
+                if (rank === 3) rankClass = "rank-top3";
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="${rankClass}">#${rank}</td>
+                        <td><strong>${player.gamer_tag}</strong></td>
+                        <td>${player.favorite_game || 'N/A'}</td>
+                        <td>${player.wins}</td>
+                        <td style="color: #00e5ff; font-weight: bold;">${player.points} PTS</td>
+                    </tr>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

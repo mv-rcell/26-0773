@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Zone | Player Profile</title>
+    <style>
+        body { background-color: #0d0e12; color: #e0e6ed; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        nav { background-color: #151821; padding: 15px 0; text-align: center; border-bottom: 2px solid #ff4655; }
+        nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; }
+        nav a:hover { color: #ff4655; }
+
+        header { text-align: center; padding: 40px 20px; background: #151821; border-bottom: 1px solid #232734; }
+        h1 { font-size: 2.5rem; color: #fff; text-transform: uppercase; margin: 0; }
+
+        .profile-card { background: #151821; border-radius: 8px; padding: 30px; margin-top: 30px; border-left: 5px solid #ff4655; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; }
+        input, textarea { width: 100%; padding: 12px; background: #0d0e12; border: 1px solid #232734; border-radius: 4px; color: #fff; box-sizing: border-box; }
+        input:focus, textarea:focus { border-color: #ff4655; outline: none; }
+        
+        .btn { background: #ff4655; color: white; border: none; padding: 12px 24px; font-weight: bold; text-transform: uppercase; border-radius: 4px; cursor: pointer; }
+        .btn:hover { background: #e03b48; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; background: #1e2230; padding: 15px; border-radius: 6px; }
+        .stat-item h3 { margin: 0; color: #00e5ff; font-size: 1.5rem; }
+        .stat-item p { margin: 0; font-size: 0.85rem; text-transform: uppercase; color: #b9c4cf; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="profile.html">Profile</a>
+            <a href="auth.html" id="nav-auth">Sign In</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Player Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <div id="profile-content" class="profile-card">
+            <p>Checking authentication status...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", loadUserProfile);
+
+        async function loadUserProfile() {
+            const container = document.getElementById("profile-content");
+            const { data: { session } } = await _supabase.auth.getSession();
+
+            if (!session) {
+                container.innerHTML = `
+                    <h2>Access Denied</h2>
+                    <p>You must be signed in to view your profile dashboard.</p>
+                    <a href="auth.html" class="btn" style="display:inline-block; margin-top:10px; text-decoration:none;">Go to Login</a>
+                `;
+                return;
+            }
+
+            const userId = session.user.id;
+
+            // Fetch current profile data from Supabase
+            let { data: profile, error } = await _supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+
+            if (error) {
+                container.innerHTML = `<p style="color:#ff4655;">Failed to load profile details.</p>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>${profile.points || 0}</h3>
+                        <p>Arena Points</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>${profile.wins || 0}</h3>
+                        <p>Total Wins</p>
+                    </div>
+                </div>
+
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label>Gamer Tag</label>
+                        <input type="text" id="prof-tag" value="${profile.gamer_tag || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Favorite Game</label>
+                        <input type="text" id="prof-game" value="${profile.favorite_game || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>Player Bio</label>
+                        <textarea id="prof-bio" rows="3">${profile.bio || ''}</textarea>
+                    </div>
+                    <button type="submit" class="btn">Update Profile</button>
+                    <div id="prof-msg" style="margin-top:15px; font-weight:bold;"></div>
+                </form>
+            `;
+
+            document.getElementById("profile-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const msg = document.getElementById("prof-msg");
+                msg.style.color = "#00e5ff";
+                msg.textContent = "Updating...";
+
+                const updatedTag = document.getElementById("prof-tag").value;
+                const updatedGame = document.getElementById("prof-game").value;
+                const updatedBio = document.getElementById("prof-bio").value;
+
+                const { error: updateError } = await _supabase
+                    .from('profiles')
+                    .update({
+                        gamer_tag: updatedTag,
+                        favorite_game: updatedGame,
+                        bio: updatedBio
+                    })
+                    .eq('id', userId);
+
+                if (updateError) {
+                    msg.style.color = "#ff4655";
+                    msg.textContent = "❌ " + updateError.message;
+                } else {
+                    msg.style.color = "#00e5ff";
+                    msg.textContent = "⚡ Profile updated successfully!";
+                    checkAuthState();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

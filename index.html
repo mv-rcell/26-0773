@@ -4,27 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Zone | Home</title>
-    <!-- Supabase JS Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* --- Core Reset & Dark Blue Theme --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #0d0e12; color: #e0e6ed; font-family: 'Segoe UI', -apple-system, sans-serif; line-height: 1.6; }
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-        /* --- Sticky Navigation with Responsive Flexbox & Hover Effects --- */
+        /* --- Sticky Navigation --- */
         nav { background-color: #151821; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #ff4655; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; flex-wrap: wrap; padding: 10px 0; }
         nav a { color: #ffffff; text-decoration: none; font-weight: bold; text-transform: uppercase; margin: 5px 15px; padding: 6px 12px; border-radius: 4px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* Navigation Hover Effect */
         nav a:hover { color: #ff4655; background-color: rgba(255, 70, 85, 0.15); }
 
         /* --- Header Styling --- */
         header { text-align: center; padding: 60px 20px; background: #151821; border-bottom: 1px solid #232734; }
         h1 { font-size: 3rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- Section Container with Dark Contrast Accent --- */
+        /* --- Section Container --- */
         section { background: #151821; padding: 30px; border-radius: 8px; margin: 20px 0; border-left: 5px solid #ff4655; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         h2, h3 { color: #fff; margin-bottom: 15px; text-transform: uppercase; }
 
@@ -34,27 +30,25 @@
         ul ul { margin: 5px 0 5px 15px; list-style-type: circle; color: #ff4655; }
         ul ul li { color: #e0e6ed; font-weight: normal; }
 
-        /* --- Fluid Table Framework with Highlight Rows --- */
+        /* --- Table Framework --- */
         .table-responsive { width: 100%; overflow-x: auto; margin: 30px 0; border-radius: 8px; border: 1px solid #232734; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         table { width: 100%; border-collapse: collapse; min-width: 500px; background: #151821; }
         th, td { padding: 14px 18px; text-align: left; }
         th { background: #ff4655; color: #fff; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
         td { border-bottom: 1px solid #232734; }
         caption { padding: 12px; font-weight: bold; color: #ff4655; font-size: 1.2rem; text-align: left; text-transform: uppercase; }
-        
-        /* Row Hover Animation */
         tbody tr { transition: background-color 0.2s ease; }
         tbody tr:hover { background-color: #1e2230; }
+
+        /* --- Gallery Framework --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+        figure { margin: 0; background: #151821; padding: 10px; border-radius: 5px; }
+        img { width: 100%; height: auto; border-radius: 3px; }
+        figcaption { text-align: center; color: #ff4655; margin-top: 5px; font-size: 0.9rem; }
 
         /* --- Audio Block Area --- */
         .audio-section { margin: 20px 0; padding: 20px; background: #1e2230; border-radius: 8px; border: 1px solid #232734; }
         audio { width: 100%; max-width: 450px; margin-top: 10px; }
-
-        /* --- Gallery Framework --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        figure { margin: 0; background: #151821; padding: 10px; border-radius: 5px; }
-        img { width: 100%; height: auto; border-radius: 3px; }
-        figcaption { text-align: center; color: #ff4655; margin-top: 5px; font-size: 0.9rem; }
 
         /* --- External Link Treatments --- */
         .external-link { color: #00e5ff; text-decoration: underline; font-weight: bold; transition: color 0.2s ease; }
@@ -127,27 +121,29 @@
 
         <h2>Multimedia Gallery</h2>
         <h2>Gameplay Preview</h2>
-        <iframe 
-            width="560" 
-            height="315" 
-            src="https://www.youtube.com/embed/u83VdXAVq08" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-        </iframe> 
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+            <iframe 
+                width="520" 
+                height="315" 
+                src="https://www.youtube.com/embed/u83VdXAVq08" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe> 
 
-        <iframe 
-            width="560" 
-            height="315" 
-            src="https://www.youtube.com/embed/eOrb93UZfPU?si=3xivXIhoGFCaoyrY" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen>
-        </iframe>
+            <iframe 
+                width="520" 
+                height="315" 
+                src="https://www.youtube.com/embed/eOrb93UZfPU?si=3xivXIhoGFCaoyrY" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+            </iframe>
+        </div>
         
         <div class="gallery-grid">
             <figure><img src="mk1.jpeg" alt="Combat Scene"><figcaption>Epic Combat</figcaption></figure>
@@ -170,26 +166,9 @@
         <p style="margin-top: 20px;">Stay updated with external news at <a href="https://www.ign.com" target="_blank" class="external-link">IGN Gaming News</a> (Opens in new tab).</p>
     </div>
 
-    <!-- Supabase Initialization Script -->
-    <script>
-        // Replace these values with your actual project credentials from the Supabase Dashboard
-        const SUPABASE_URL = 'https://gijwvocyiinrcoxfhuvt.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdpand2b2N5aWlucmNveGZodXZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3NzAwMzUsImV4cCI6MjA5ODM0NjAzNX0.6PWcdW7vP6OsVuLQ7sYiWZrWe6PCIk2zW0M-bHuydhI';
-
-        // Initialize Supabase Client
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Example connection test (logs current auth session to console)
-        async function checkConnection() {
-            const { data, error } = await _supabase.auth.getSession();
-            if (error) {
-                console.error('Supabase Connection Error:', error.message);
-            } else {
-                console.log('Connected to Supabase successfully!');
-            }
-        }
-
-        checkConnection();
-    </script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Main Script File -->
+    <script src="script.js"></script>
 </body>
 </html>
