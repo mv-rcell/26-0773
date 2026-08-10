@@ -6,15 +6,15 @@
     <title>Game Zone | Authenticate</title>
     <link rel="stylesheet" href="style.css">
     <style>
- body { background-color: #0d0e12; color: #e0e6ed; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #0d0e12; color: #e0e6ed; font-family: 'Segoe UI', sans-serif; }
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         nav { background-color: #151821; padding: 15px 0; text-align: center; border-bottom: 2px solid #ff4655; }
         nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
-                .auth-wrapper {
+        .auth-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: calc(100vh - 250px); /* Centers card beautifully between header and viewport */
+            min-height: calc(100vh - 250px);
             padding: 40px 20px;
         }
 
@@ -26,7 +26,7 @@
             max-width: 420px;
             padding: 40px 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border-left: 5px solid #ff4655; /* Matches the homepage section accent */
+            border-left: 5px solid #ff4655;
         }
 
         .auth-tabs {
@@ -60,17 +60,10 @@
             background-color: rgba(255, 70, 85, 0.08);
         }
 
-        .form-container {
-            display: none;
-        }
+        .form-container { display: none; }
+        .form-container.active { display: block; }
 
-        .form-container.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-        }
+        .form-group { margin-bottom: 22px; }
 
         .form-group label {
             display: block;
@@ -94,7 +87,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Input Interaction States */
         .form-group input:focus {
             outline: none;
             border-color: #ff4655;
@@ -102,7 +94,6 @@
             background: #151821;
         }
 
-        /* Gaming Action Button styling matching the theme headers */
         .submit-btn {
             width: 100%;
             padding: 14px;
@@ -125,9 +116,7 @@
             box-shadow: 0 6px 16px rgba(255, 70, 85, 0.4);
         }
 
-        .submit-btn:active {
-            transform: translateY(0);
-        }
+        .submit-btn:active { transform: translateY(0); }
 
         .auth-msg {
             margin-top: 20px;
@@ -157,8 +146,8 @@
         <div class="auth-card">
             
             <div class="auth-tabs">
-                <button class="auth-tab-btn active" onclick="switchTab('login')">Log In</button>
-                <button class="auth-tab-btn" onclick="switchTab('signup')">Sign Up</button>
+                <button class="auth-tab-btn active" id="tab-login" onclick="switchTab('login')">Log In</button>
+                <button class="auth-tab-btn" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
             </div>
 
             <div id="login-form-box" class="form-container active">
@@ -197,6 +186,8 @@
         </div>
     </div>
 
+    <!-- Supabase JS CDN Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 </html>
